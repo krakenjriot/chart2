@@ -64,15 +64,15 @@
 					$u = date("u",$time);
 
 
-					$sensor1 = $row['temp'];
-					$sensor2 = $row['hum'];
+					$temp = $row['temp'];
+					$hum = $row['hum'];
 
 
-					if($sensor1 == 0) continue;
-					if($sensor2 == 0) continue;
+					if($temp == 0) continue;
+					if($hum == 0) continue;
 
 
-					echo "[new Date($y,$mo,$d,$h,$m,$s), $sensor1, $sensor2],";
+					echo "[new Date($y,$mo,$d,$h,$m,$s), $temp, $hum],";
 
 				}
 
