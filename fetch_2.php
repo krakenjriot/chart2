@@ -1,12 +1,10 @@
 <?php
-
-  $title = "NEW Ambient Temperature Graph (c)";
-  $legend_sensor_name1 = "Temprature";
+  $title = "Temperature (ºC) / Humidity Graph (%)"; //degree symbol Alt+0186 
+  $legend_sensor_name1 = "Temperature";
   $legend_sensor_name2 = "Humidity";
   $legend_time_name =  "Time";
   $number_of_samples =  "1000";
   $interval_span =  "30"; //mins
-
 ?>
 
   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
@@ -18,13 +16,12 @@
 
       var data = new google.visualization.DataTable();
       data.addColumn('datetime', "<?php echo $legend_time_name; ?>");
-      data.addColumn('number', '<?php echo $legend_sensor_name1; ?>');
+      data.addColumn('number', '<?php echo $legend_sensor_name1; ?>'); //C\xB0 degree centegrade symbol
       data.addColumn('number', '<?php echo $legend_sensor_name2; ?>');
       //data.addColumn('number', 'Sensor2');
-
-
       data.addRows([
    		<?php
+
 
 			date_default_timezone_set("Asia/Riyadh");
 
@@ -39,20 +36,55 @@
 			/*****************************************************************/
 
 
-			 //$query = " SELECT dtime,sensor1,sensor2,hum,temp  FROM tbl_sensors ORDER BY id DESC LIMIT 100 ";
-			 $query = " SELECT *  FROM tbl_sensors ORDER BY id DESC LIMIT $number_of_samples ";
+      //$query = " SELECT *  FROM tbl_sensors ORDER BY id DESC LIMIT $number_of_samples ";
+			//$statement = $connect->prepare($query);
+			//$statement->execute();
+			//$result = $statement->fetchAll();
+      $db_server = "localhost";
+      $db_user = "root";
+      $db_pass = "";
+      $db_name = "mydb";
 
-			 $statement = $connect->prepare($query);
-			 $statement->execute();
-			 $result = $statement->fetchAll();
+      // Create DB connection
+      $conn = new mysqli($db_server, $db_user, $db_pass, $db_name);
+      // Check connection
+      if ($conn->connect_error) {
+      die("Connection failed: " . $conn->connect_error);
+      }
 
-			//$i = 0;
+      $sql = " SELECT *  FROM tbl_sensors ORDER BY id DESC LIMIT $number_of_samples ";
+      $result = $conn->query($sql);
+
+      if ($result->num_rows > 0) {
+        while($row = $result->fetch_assoc()) {
+          $time = strtotime($row['dtime']);
+          $y = date("Y",$time); // year
+					$mo = date("m",$time); //month
+					$d = date("d",$time); //day
+
+					$h = date("H",$time); // hour
+					$m = date("i",$time); //minute
+					$s = date("s",$time); //second
+					//$u = date("u",$time); //milliseconds
+
+					$temp = $row['temp'];
+					$hum = $row['hum'];
+
+					if($temp == 0) continue;
+					if($hum == 0) continue;
+
+					echo "[new Date($y,$mo,$d,$h,$m,$s), $temp, $hum],";
+        }//while
+      }//if
+
+
+
+      /*
 			foreach($result as $row)
 				{
 					//++$i;
 					$time = strtotime($row['dtime']);
 					//$tzone = strtotime($row['tzone']);
-
 
 					$y = date("Y",$time);
 					$mo = date("m",$time);
@@ -61,7 +93,7 @@
 					$h = date("H",$time);
 					$m = date("i",$time);
 					$s = date("s",$time);
-					$u = date("u",$time);
+					//$u = date("u",$time);
 
 
 					$temp = $row['temp'];
@@ -74,8 +106,9 @@
 
 					echo "[new Date($y,$mo,$d,$h,$m,$s), $temp, $hum],";
 
-				}
+				} */
 
+          //breakdown current date/time
 					$y = date("Y");
 					$mo = date("m");
 					$d = date("d");
@@ -91,9 +124,8 @@
 
       var options = {
         chart: {
-          //title: 'Ambient Temperature Graph (c)',
           title: '<?php echo $title; ?>',
-          subtitle: 'Time/Date: <?php echo date('hA (M-d-Y )',time()); ?>'
+          subtitle: 'Date/Time: <?php echo date('h A (M-d-Y )',time()); ?>'
         },
         width: '100%',
         height: 500,
