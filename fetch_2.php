@@ -1,7 +1,7 @@
 <?php
-  $title = "Temperature (ºC) / Humidity Graph (%)"; //degree symbol Alt+0186 
-  $legend_sensor_name1 = "Temperature";
-  $legend_sensor_name2 = "Humidity";
+  $title = "Temperature (ºC) / Humidity Graph (%)"; //degree symbol Alt+0186
+  $legend_sensor_name1 = "Temperature (ºC)";
+  $legend_sensor_name2 = "Humidity (%)";
   $legend_time_name =  "Time";
   $number_of_samples =  "1000";
   $interval_span =  "30"; //mins
