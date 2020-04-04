@@ -25,7 +25,7 @@
 
 			date_default_timezone_set("Asia/Riyadh");
 
-			$connect = new PDO("mysql:host=localhost;dbname=mydb", "root", "");
+			//$connect = new PDO("mysql:host=localhost;dbname=mydb", "root", "");
 
 			/*****************************************************************/
 			/*****************************************************************/
