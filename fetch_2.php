@@ -1,5 +1,5 @@
 <?php
-  $title = "Temperature (ºC) / Humidity Graph (%)"; //degree symbol Alt+0186 
+  $title = "Temperature (ºC) / Humidity Graph (%)"; //degree symbol Alt+0186
   $legend_sensor_name1 = "Temperature";
   $legend_sensor_name2 = "Humidity";
   $legend_time_name =  "Time";
@@ -22,6 +22,7 @@
       data.addRows([
    		<?php
 
+      //test
 
 			date_default_timezone_set("Asia/Riyadh");
 
